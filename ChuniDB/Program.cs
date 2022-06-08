@@ -17,10 +17,9 @@ namespace ChuniDB
 
             var connectionString = new SqliteConnection(baseString);
             connectionString.Open();
-
-            music musicFile = new music(@"E:\Chunithm Data\Paradise\Data\A000\music\music0003\Music.xml", connectionString);
-            musicFile.parseMusicXML();
-            musicFile.insertToDB();
+            DirectoryInfo currentPath = new DirectoryInfo(@"E:\Chunithm Data\Paradise\Data");
+            DataRoot chuniRoot = new DataRoot(currentPath, connectionString);
+            chuniRoot.SearchFolders();
 
             connectionString.Close();
         }

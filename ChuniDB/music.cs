@@ -12,6 +12,7 @@ namespace ChuniDB
     internal class music
     {
         private string filePath;
+        private string optionOrigin;
         private SqliteConnection connection;
 
         private string? dataName;
@@ -57,12 +58,18 @@ namespace ChuniDB
         private string? worldsEndLevel;
         private string? worldsEndDecimal;
 
-        public music(string xmlFilePath, SqliteConnection connString)
+        //default constructor
+        //Inputs:
+        //string xmlFilePath = a file path that will point to music.xmls for parsing
+        //SqliteConnection connstring = connection string info for inserting into the SQLite database
+        public music(string xmlFilePath, SqliteConnection connString, string option)
         {
             filePath = xmlFilePath;
             connection = connString;
+            optionOrigin = option;
         }
 
+        //method for parsing the majority of the information in a music.xml file
         public void parseMusicXML()
         {
             string xmlFileInput = System.IO.File.ReadAllText(@filePath);
@@ -76,7 +83,15 @@ namespace ChuniDB
             releaseTagNameStr = (string)(from el in root.Descendants("str") select el).Skip(1).First();
             netOpenNameID = (string)(from el in root.Descendants("id") select el).Skip(2).First();
             netOpenNameStr = (string)(from el in root.Descendants("str") select el).Skip(2).First();
-            disableFlag = (string)(from el in root.Descendants("disableFlag") select el).First();
+            //A010 music.xml appears to trigger exceptions due to this element being missing.
+            try
+            {
+                disableFlag = (string)(from el in root.Descendants("disableFlag") select el).First();
+            }
+            catch (InvalidOperationException e)
+            {
+                disableFlag = "none";
+            }
             exType = (string)(from el in root.Descendants("exType") select el).First();
             nameID = (string)(from el in root.Descendants("id") select el).Skip(3).First();
             nameStr = (string)(from el in root.Descendants("str") select el).Skip(3).First();
@@ -118,15 +133,16 @@ namespace ChuniDB
             worldsEndLevel = worldsEndLevel + "." + worldsEndDecimal;
         }
         
+        //method for inserting all the parsed information into a SQLite database
         public void insertToDB()
         {
-            SqliteCommand insertMusic = new SqliteCommand("INSERT INTO Music (nameID, dataName, disableFlag, musicName, " +
+            SqliteCommand insertMusic = new SqliteCommand("INSERT INTO Music (nameID, dataName, option, disableFlag, musicName, " +
             "sortName, artistID, artistName, genreID, genreName, rightsInfoID, rightsInfoName, worksID, worksName, " +
             "firstLock, priority, previewStartTime, previewEndTime, worldsEndTagID, worldsEndTagName, starDifType," +
             "stageID, stageName, basicLevel, advancedLevel, expertLevel, masterLevel, worldsEndLevel, cueFileID, " +
             "cueFileName, formatVersion, resourceVersionID, resourceVersion, releaseTagID, releaseTagVer, netOpenID, " +
             "netOpenVer, exType) " +
-            "VALUES (@nameID, @dataName, @disableFlag, @musicName, @sortName, @artistID, @artistName, @genreID, " +
+            "VALUES (@nameID, @dataName, @option, @disableFlag, @musicName, @sortName, @artistID, @artistName, @genreID, " +
             "@genreName, @rightsInfoID, @rightsInfoName, @worksID, @worksName, @firstLock, @priority, @previewStartTime, " +
             "@previewEndTime, @worldsEndTagID, @worldsEndTagName, @starDifType, @stageID, @stageName, @basicLevel, " +
             "@advancedLevel, @expertLevel, @masterLevel, @worldsEndLevel, @cueFileID, @cueFileName, @formatVersion, " +
@@ -134,6 +150,7 @@ namespace ChuniDB
 
             insertMusic.Parameters.AddWithValue("@nameID", nameID);
             insertMusic.Parameters.AddWithValue("@dataName", dataName);
+            insertMusic.Parameters.AddWithValue("@option", optionOrigin);
             insertMusic.Parameters.AddWithValue("@disableFlag", disableFlag);
             insertMusic.Parameters.AddWithValue("@musicName", nameStr);
             insertMusic.Parameters.AddWithValue("@sortName", sortName);

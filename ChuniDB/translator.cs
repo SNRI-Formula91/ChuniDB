@@ -1,30 +1,30 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
+using System.Xml;
 
 namespace ChuniDB
 {
-    internal class DataRoot
+    internal class translator
     {
         private string basePath;
-        private SqliteConnection cString;
+        private SqliteConnection connectionString;
 
-        public DataRoot(DirectoryInfo inputPath, SqliteConnection dbString)
+        public translator(DirectoryInfo inputPath, SqliteConnection dbString)
         {
             basePath = inputPath.ToString();
-            cString = dbString;
+            connectionString = dbString;
         }
-        
-        public void SearchFolders()
+
+        public void TranslateContent(int versionFlag)
         {
             foreach (string optionDirectories in Directory.GetDirectories(basePath))
             {
                 DirectoryInfo option = new DirectoryInfo(optionDirectories);
-                string optionFolder = option.Name;
                 foreach (string folderType in Directory.GetDirectories(optionDirectories))
                 {
                     foreach (string folder in Directory.GetDirectories(folderType))
@@ -35,10 +35,18 @@ namespace ChuniDB
                             switch (file.Name)
                             {
                                 case "Music.xml":
-                                    music musicFile = new music(@file.FullName, cString, optionFolder);
-                                    musicFile.parseMusicXML();
-                                    musicFile.insertToDB();
+                                    musicTranslator fileToTranslate = new musicTranslator(@file.FullName, connectionString, versionFlag);
+                                    fileToTranslate.translateMusicFile();
                                     break;
+                                case "Chara.xml":
+                                    break;
+                                case "NamePlate.xml":
+                                    break;
+                                case "SystemVoice.xml":
+                                    break;
+                                case "Trophy.xml":
+                                    break;
+
                             }
                         }
                     }

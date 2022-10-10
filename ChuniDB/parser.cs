@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
+using ChuniDB.Structs;
 
 namespace ChuniDB
 {
@@ -19,7 +20,7 @@ namespace ChuniDB
             cString = dbString;
         }
         
-        public void SearchFolders(int versionFlag)
+        public void SearchFolders()
         {
             foreach (string optionDirectories in Directory.GetDirectories(basePath))
             {
@@ -35,7 +36,7 @@ namespace ChuniDB
                             switch (file.Name)
                             {
                                 case "Music.xml":
-                                    musicParser musicFile = new musicParser(@file.FullName, cString, optionFolder, versionFlag);
+                                    musicParser musicFile = new musicParser(@file.FullName, cString, optionFolder);
                                     musicFile.parseMusicXML();
                                     musicFile.insertToDB();
                                     break;

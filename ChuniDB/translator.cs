@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using ChuniDB.Methods;
+using Microsoft.Data.Sqlite;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace ChuniDB
             connectionString = dbString;
         }
 
-        public void TranslateContent(int versionFlag)
+        public void TranslateContent()
         {
             foreach (string optionDirectories in Directory.GetDirectories(basePath))
             {
@@ -35,7 +36,7 @@ namespace ChuniDB
                             switch (file.Name)
                             {
                                 case "Music.xml":
-                                    musicTranslator fileToTranslate = new musicTranslator(@file.FullName, connectionString, versionFlag);
+                                    musicTranslator fileToTranslate = new musicTranslator(@file.FullName, connectionString);
                                     fileToTranslate.translateMusicFile();
                                     break;
                                 case "Chara.xml":

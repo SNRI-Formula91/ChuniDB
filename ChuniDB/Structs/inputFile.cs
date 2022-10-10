@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 
 
-namespace ChuniDB
+namespace ChuniDB.Structs
 {
     internal class inputFile
     {

@@ -8,9 +8,9 @@ using System.Xml;
 using System.Xml.Linq;
 using Microsoft.Data.Sqlite;
 
-namespace ChuniDB
+namespace ChuniDB.Structs
 {
-    internal class musicParser
+    internal class charaParser
     {
         private string filePath;
         private string optionOrigin;
@@ -26,36 +26,87 @@ namespace ChuniDB
         private string? netOpenNameID;
         private string? netOpenNameStr;
         private string? disableFlag;
-        private string? exType;
         private string? nameID;
         private string? nameStr;
         private string? rightsInfoNameID;
         private string? rightsInfoNameStr;
         private string? sortName;
-        private string? artistNameID;
-        private string? artistNameStr;
-        private string? genreNameID;
-        private string? genreNameStr;
         private string? worksNameID;
         private string? worksNameStr;
-        private string? firstLock;
-        private string? enableUltima;
+        private string? illustratorID;
+        private string? illustratorStr;
+        private string? defaultHave;
+        private string? firstSkill;
+        private string? firstSkillID;
+        private string? firstSkillStr;
+        private string? rareType;
+        private string? normConditionVerID;
+        private string? normConditionVerStr;
+        private string? additionalImageResourceVerID1;
+        private string? additionalImageResourceVerStr1;
+        private string? additionalImageChangeable1;
+        private string? additionalImageNameID1;
+        private string? additionalImageNameStr1;
+        private string? additionalImageID1;
+        private string? additionalImageStr1;
+        private string? additionalImageResourceVerID2;
+        private string? additionalImageResourceVerStr2;
+        private string? additionalImageChangeable2;
+        private string? additionalImageNameID2;
+        private string? additionalImageNameStr2;
+        private string? additionalImageID2;
+        private string? additionalImageStr2;
+        private string? additionalImageResourceVerID3;
+        private string? additionalImageResourceVerStr3;
+        private string? additionalImageChangeable3;
+        private string? additionalImageNameID3;
+        private string? additionalImageNameStr3;
+        private string? additionalImageID3;
+        private string? additionalImageStr3;
+        private string? additionalImageResourceVerID4;
+        private string? additionalImageResourceVerStr4;
+        private string? additionalImageChangeable4;
+        private string? additionalImageNameID4;
+        private string? additionalImageNameStr4;
+        private string? additionalImageID4;
+        private string? additionalImageStr4;
+        private string? additionalImageResourceVerID5;
+        private string? additionalImageResourceVerStr5;
+        private string? additionalImageChangeable5;
+        private string? additionalImageNameID5;
+        private string? additionalImageNameStr5;
+        private string? additionalImageID5;
+        private string? additionalImageStr5;
+        private string? additionalImageResourceVerID6;
+        private string? additionalImageResourceVerStr6;
+        private string? additionalImageChangeable6;
+        private string? additionalImageNameID6;
+        private string? additionalImageNameStr6;
+        private string? additionalImageID6;
+        private string? additionalImageStr6;
+        private string? additionalImageResourceVerID7;
+        private string? additionalImageResourceVerStr7;
+        private string? additionalImageChangeable7;
+        private string? additionalImageNameID7;
+        private string? additionalImageNameStr7;
+        private string? additionalImageID7;
+        private string? additionalImageStr7;
+        private string? additionalImageResourceVerID8;
+        private string? additionalImageResourceVerStr8;
+        private string? additionalImageChangeable8;
+        private string? additionalImageNameID8;
+        private string? additionalImageNameStr8;
+        private string? additionalImageID8;
+        private string? additionalImageStr8;
+        private string? additionalImageResourceVerID9;
+        private string? additionalImageResourceVerStr9;
+        private string? additionalImageChangeable9;
+        private string? additionalImageNameID9;
+        private string? additionalImageNameStr9;
+        private string? additionalImageID9;
+        private string? additionalImageStr9;
         private string? priority;
-        private string? cueFileNameID;
-        private string? cueFileNameStr;
-        private string? previewStartTime;
-        private string? previewEndTime;
-        private string? worldsEndTagNameID;
-        private string? worldsEndTagNameStr;
-        private string? starDifType;
-        private string? stageNameID;
-        private string? stageNameStr;
-        private string? basicLevel;
-        private string? basicDecimal;
-        private string? advancedLevel;
-        private string? advancedDecimal;
-        private string? expertLevel;
-        private string? expertDecimal;
+        private string? levelMilestone1;
         private string? masterLevel;
         private string? masterDecimal;
         private string? ultimaLevel;
@@ -69,7 +120,7 @@ namespace ChuniDB
         //SqliteConnection connstring = connection string info for inserting into the SQLite database
         //int version = command line argument that determines parsing patters based on Chunithm file version
         //string option = name of the option folder whose files are being parsed.
-        public musicParser(string xmlFilePath, SqliteConnection connString, string option, int version)
+        /*public charaParser(string xmlFilePath, SqliteConnection connString, string option, int version)
         {
             filePath = xmlFilePath;
             connection = connString;
@@ -80,7 +131,7 @@ namespace ChuniDB
         //method for parsing the majority of the information in a music.xml file
         public void parseMusicXML()
         {
-            string xmlFileInput = System.IO.File.ReadAllText(@filePath);
+            string xmlFileInput = File.ReadAllText(@filePath);
             XElement root = XElement.Parse(xmlFileInput);
 
             //Start processing common data found in all music files regardless of version
@@ -195,7 +246,7 @@ namespace ChuniDB
             masterLevel = masterLevel + "." + masterDecimal;
             worldsEndLevel = worldsEndLevel + "." + worldsEndDecimal;
         }
-        
+
         //method for inserting all the parsed information into a SQLite database
         public void insertToDB()
         {
@@ -260,5 +311,6 @@ namespace ChuniDB
                 throw new Exception(ex.Message);
             }
         }
+        */
     }
 }

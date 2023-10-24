@@ -9,6 +9,7 @@ namespace ChuniDB
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             if (args.Length == 0)
                 Console.Write("No parameters provided.");
             else
@@ -18,7 +19,8 @@ namespace ChuniDB
                 else
                 {
                     string task = args[0];
-                    DirectoryInfo currentPath = new DirectoryInfo(@"D:\Chunithm Data\DataWorkspace");
+                    DirectoryInfo exportPath = new DirectoryInfo(@"D:\Chunithm Data\ExportDataWorkspace");
+                    DirectoryInfo importPath = new DirectoryInfo(@"D:\Chunithm Data\ImportDataWorkspace");
                     switch (args[0])
                     {
                         case "export":
@@ -32,7 +34,7 @@ namespace ChuniDB
                             var connectionExportString = new SqliteConnection(baseExportString);
                             connectionExportString.Open();
                             
-                            parser chuniParser = new parser(currentPath, connectionExportString);
+                            parser chuniParser = new parser(exportPath, connectionExportString);
                             chuniParser.SearchFolders();
                             connectionExportString.Close();
                             break;
@@ -45,7 +47,7 @@ namespace ChuniDB
                             }.ToString();
                             var connectionImportString = new SqliteConnection(baseImportString);
                             connectionImportString.Open();
-                            translator chuniTranslator = new translator(currentPath, connectionImportString);
+                            translator chuniTranslator = new translator(importPath, connectionImportString);
                             chuniTranslator.TranslateContent();
                             connectionImportString.Close();
                             break;

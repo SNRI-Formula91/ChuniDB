@@ -41,6 +41,9 @@ namespace ChuniDB
                                     musicFile.insertToDB();
                                     break;
                                 case "Chara.xml":
+                                    charaParser charaFile = new charaParser(file.FullName, cString, optionFolder);
+                                    charaFile.parseCharaXML();
+                                    charaFile.insertToDB();
                                     break;
                                 case "NamePlate.xml":
                                     break;
@@ -48,7 +51,11 @@ namespace ChuniDB
                                     break;
                                 case "Trophy.xml":
                                     break;
-
+                                case "Course.xml":
+                                    courseParser courseFile = new courseParser(@file.FullName, cString, optionFolder);
+                                    courseFile.parseCourseXML();
+                                    courseFile.insertToDB();
+                                    break;
                             }
                         }
                     }

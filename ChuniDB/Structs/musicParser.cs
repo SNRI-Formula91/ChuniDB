@@ -39,6 +39,7 @@ namespace ChuniDB.Structs
         private string worksNameStr;
         private string firstLock;
         private string enableUltima;
+        private string isGiftMusic;
         private string priority;
         private string cueFileNameID;
         private string cueFileNameStr;
@@ -96,6 +97,7 @@ namespace ChuniDB.Structs
             worksNameStr = "";
             firstLock = "";
             enableUltima = "none";
+            isGiftMusic = "none";
             priority = "";
             cueFileNameID = "";
             cueFileNameStr = "";
@@ -158,6 +160,8 @@ namespace ChuniDB.Structs
             firstLock = musicParser.SelectSingleNode("/MusicData/firstLock/text()")!.Value;
             if (musicParser.SelectSingleNode("/MusicData/enableUltima/text()") is not null)
                 enableUltima = musicParser.SelectSingleNode("/MusicData/enableUltima/text()")!.Value;
+            if (musicParser.SelectSingleNode("/MusicData/isGiftMusic/text()") is not null)
+                isGiftMusic = musicParser.SelectSingleNode("/MusicData/isGiftMusic/text()")!.Value;
             priority = musicParser.SelectSingleNode("/MusicData/priority/text()")!.Value;
             cueFileNameID = musicParser.SelectSingleNode("/MusicData/cueFileName/id/text()")!.Value;
             cueFileNameStr = musicParser.SelectSingleNode("/MusicData/cueFileName/str/text()")!.Value;
@@ -219,6 +223,7 @@ namespace ChuniDB.Structs
             Console.WriteLine(worksNameStr);
             Console.WriteLine(firstLock);
             Console.WriteLine(enableUltima);
+            Console.WriteLine(isGiftMusic);
             Console.WriteLine(priority);
             Console.WriteLine(previewStartTime);
             Console.WriteLine(previewEndTime);
@@ -246,12 +251,12 @@ namespace ChuniDB.Structs
 
             SqliteCommand insertMusic = new SqliteCommand("INSERT INTO Music (nameID, dataName, option, disableFlag, musicName, " +
             "sortName, artistID, artistName, genreID, genreName, rightsInfoID, rightsInfoName, worksID, worksName, " +
-            "firstLock, enableUltima, priority, previewStartTime, previewEndTime, worldsEndTagID, worldsEndTagName, starDifType," +
+            "firstLock, enableUltima, isGiftMusic, priority, previewStartTime, previewEndTime, worldsEndTagID, worldsEndTagName, starDifType," +
             "stageID, stageName, basicLevel, advancedLevel, expertLevel, masterLevel, ultimaLevel, worldsEndLevel, cueFileID, " +
             "cueFileName, formatVersion, resourceVersionID, resourceVersion, releaseTagID, releaseTagVer, netOpenID, " +
             "netOpenVer, exType) " +
             "VALUES (@nameID, @dataName, @option, @disableFlag, @musicName, @sortName, @artistID, @artistName, @genreID, " +
-            "@genreName, @rightsInfoID, @rightsInfoName, @worksID, @worksName, @firstLock, @enableUltima, @priority, @previewStartTime, " +
+            "@genreName, @rightsInfoID, @rightsInfoName, @worksID, @worksName, @firstLock, @enableUltima, @isGiftMusic, @priority, @previewStartTime, " +
             "@previewEndTime, @worldsEndTagID, @worldsEndTagName, @starDifType, @stageID, @stageName, @basicLevel, " +
             "@advancedLevel, @expertLevel, @masterLevel, @ultimaLevel, @worldsEndLevel, @cueFileID, @cueFileName, @formatVersion, " +
             "@resourceVersionID, @resourceVersion, @releaseTagID, @releaseTagVer, @netOpenID, @netOpenVer, @exType)", connection);
@@ -272,6 +277,7 @@ namespace ChuniDB.Structs
             insertMusic.Parameters.AddWithValue("@worksName", worksNameStr);
             insertMusic.Parameters.AddWithValue("@firstLock", firstLock);
             insertMusic.Parameters.AddWithValue("@enableUltima", enableUltima);
+            insertMusic.Parameters.AddWithValue("@isGiftMusic", isGiftMusic);
             insertMusic.Parameters.AddWithValue("@priority", priority);
             insertMusic.Parameters.AddWithValue("@previewStartTime", previewStartTime);
             insertMusic.Parameters.AddWithValue("@previewEndTime", previewEndTime);

@@ -5,8 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 using Microsoft.Data.Sqlite;
+using System.Xml.XPath;
 
 namespace ChuniDB.Structs
 {
@@ -15,302 +15,265 @@ namespace ChuniDB.Structs
         private string filePath;
         private string optionOrigin;
         private SqliteConnection connection;
-        private int version;
 
-        private string? dataName;
-        private string? formatVersion;
-        private string? resourceVersionID;
-        private string? resourceVersionStr;
-        private string? releaseTagNameID;
-        private string? releaseTagNameStr;
-        private string? netOpenNameID;
-        private string? netOpenNameStr;
-        private string? disableFlag;
-        private string? nameID;
-        private string? nameStr;
-        private string? rightsInfoNameID;
-        private string? rightsInfoNameStr;
-        private string? sortName;
-        private string? worksNameID;
-        private string? worksNameStr;
-        private string? illustratorID;
-        private string? illustratorStr;
-        private string? defaultHave;
-        private string? firstSkill;
-        private string? firstSkillID;
-        private string? firstSkillStr;
-        private string? rareType;
-        private string? normConditionVerID;
-        private string? normConditionVerStr;
-        private string? additionalImageResourceVerID1;
-        private string? additionalImageResourceVerStr1;
-        private string? additionalImageChangeable1;
-        private string? additionalImageNameID1;
-        private string? additionalImageNameStr1;
-        private string? additionalImageID1;
-        private string? additionalImageStr1;
-        private string? additionalImageResourceVerID2;
-        private string? additionalImageResourceVerStr2;
-        private string? additionalImageChangeable2;
-        private string? additionalImageNameID2;
-        private string? additionalImageNameStr2;
-        private string? additionalImageID2;
-        private string? additionalImageStr2;
-        private string? additionalImageResourceVerID3;
-        private string? additionalImageResourceVerStr3;
-        private string? additionalImageChangeable3;
-        private string? additionalImageNameID3;
-        private string? additionalImageNameStr3;
-        private string? additionalImageID3;
-        private string? additionalImageStr3;
-        private string? additionalImageResourceVerID4;
-        private string? additionalImageResourceVerStr4;
-        private string? additionalImageChangeable4;
-        private string? additionalImageNameID4;
-        private string? additionalImageNameStr4;
-        private string? additionalImageID4;
-        private string? additionalImageStr4;
-        private string? additionalImageResourceVerID5;
-        private string? additionalImageResourceVerStr5;
-        private string? additionalImageChangeable5;
-        private string? additionalImageNameID5;
-        private string? additionalImageNameStr5;
-        private string? additionalImageID5;
-        private string? additionalImageStr5;
-        private string? additionalImageResourceVerID6;
-        private string? additionalImageResourceVerStr6;
-        private string? additionalImageChangeable6;
-        private string? additionalImageNameID6;
-        private string? additionalImageNameStr6;
-        private string? additionalImageID6;
-        private string? additionalImageStr6;
-        private string? additionalImageResourceVerID7;
-        private string? additionalImageResourceVerStr7;
-        private string? additionalImageChangeable7;
-        private string? additionalImageNameID7;
-        private string? additionalImageNameStr7;
-        private string? additionalImageID7;
-        private string? additionalImageStr7;
-        private string? additionalImageResourceVerID8;
-        private string? additionalImageResourceVerStr8;
-        private string? additionalImageChangeable8;
-        private string? additionalImageNameID8;
-        private string? additionalImageNameStr8;
-        private string? additionalImageID8;
-        private string? additionalImageStr8;
-        private string? additionalImageResourceVerID9;
-        private string? additionalImageResourceVerStr9;
-        private string? additionalImageChangeable9;
-        private string? additionalImageNameID9;
-        private string? additionalImageNameStr9;
-        private string? additionalImageID9;
-        private string? additionalImageStr9;
-        private string? priority;
-        private string? levelMilestone1;
-        private string? masterLevel;
-        private string? masterDecimal;
-        private string? ultimaLevel;
-        private string? ultimaDecimal;
-        private string? worldsEndLevel;
-        private string? worldsEndDecimal;
+        private string dataName;
+        private string formatVersion;
+        private string resourceVersionID;
+        private string resourceVersionStr;
+        private string releaseTagNameID;
+        private string releaseTagNameStr;
+        private string netOpenNameID;
+        private string netOpenNameStr;
+        private string disableFlag;
+        private string nameID;
+        private string nameStr;
+        private string rightsInfoNameID;
+        private string rightsInfoNameStr;
+        private string sortName;
+        private string worksNameID;
+        private string worksNameStr;
+        private string illustratorID;
+        private string illustratorStr;
+        private string defaultHave;
+        private string firstSkillID;
+        private string firstSkillStr;
+        private string rareType;
+        private string normConditionVerID;
+        private string normConditionVerStr;
+        
+        private string nameID2;
+        private string nameStr2;
+        private string nameID3;
+        private string nameStr3;
+        private string nameID4;
+        private string nameStr4;
+        private string nameID5;
+        private string nameStr5;
+        private string nameID6;
+        private string nameStr6;
+        private string nameID7;
+        private string nameStr7;
+        private string nameID8;
+        private string nameStr8;
+        private string nameID9;
+        private string nameStr9;
+        private string nameID10;
+        private string nameStr10;
 
+        private string priority;
+        
         //default constructor
         //Inputs:
-        //string xmlFilePath = a file path that will point to music.xmls for parsing
+        //string xmlFilePath = a file path that will point to chara.xmls for parsing
         //SqliteConnection connstring = connection string info for inserting into the SQLite database
         //int version = command line argument that determines parsing patters based on Chunithm file version
         //string option = name of the option folder whose files are being parsed.
-        /*public charaParser(string xmlFilePath, SqliteConnection connString, string option, int version)
+        public charaParser(string xmlFilePath, SqliteConnection connString, string option)
         {
             filePath = xmlFilePath;
             connection = connString;
             optionOrigin = option;
-            this.version = version;
+
+        dataName = "";
+        formatVersion = "none";
+        resourceVersionID = "none";
+        resourceVersionStr = "none";
+        releaseTagNameID = "";
+        releaseTagNameStr = "";
+        netOpenNameID = "";
+        netOpenNameStr = "";
+        disableFlag = "";
+        nameID = "";
+        nameStr = "";
+        rightsInfoNameID = "none";
+        rightsInfoNameStr = "none";
+        sortName = "";
+        worksNameID = "";
+        worksNameStr = "";
+        illustratorID = "";
+        illustratorStr = "";
+        defaultHave = "";
+        firstSkillID = "none";
+        firstSkillStr = "none";
+        rareType = "";
+        normConditionVerID = "none";
+        normConditionVerStr = "none";
+        nameID2 = "none";
+        nameStr2 = "none";
+        nameID3 = "none";
+        nameStr3 = "none";
+        nameID4 = "none";
+        nameStr4 = "none";
+        nameID5 = "none";
+        nameStr5 = "none";
+        nameID5 = "none";
+        nameStr5 = "none";
+        nameID6 = "none";
+        nameStr6 = "none";
+        nameID7 = "none";
+        nameStr7 = "none";
+        nameID8 = "none";
+        nameStr8 = "none";
+        nameID9 = "none";
+        nameStr9 = "none";
+        nameID10 = "none";
+        nameStr10 = "none";
+        priority = "";
         }
 
-        //method for parsing the majority of the information in a music.xml file
-        public void parseMusicXML()
+        //method for parsing the majority of the information in a chara.xml file
+        public void parseCharaXML()
         {
-            string xmlFileInput = File.ReadAllText(@filePath);
-            XElement root = XElement.Parse(xmlFileInput);
+            XPathDocument charaFile = new XPathDocument(filePath);
+            XPathNavigator charaParser = charaFile.CreateNavigator();
 
-            //Start processing common data found in all music files regardless of version
-            dataName = (string)(from el in root.Descendants("dataName") select el).First();
-            //A010 music.xml appears to trigger exceptions due to this element being missing.
-            try
-            {
-                disableFlag = (string)(from el in root.Descendants("disableFlag") select el).First();
-            }
-            catch (InvalidOperationException e)
-            {
-                disableFlag = "none";
-            }
-            exType = (string)(from el in root.Descendants("exType") select el).First();
-            sortName = (string)(from el in root.Descendants("sortName") select el).First();
-            firstLock = (string)(from el in root.Descendants("firstLock") select el).First();
-            priority = (string)(from el in root.Descendants("priority") select el).First();
-            previewStartTime = (string)(from el in root.Descendants("previewStartTime") select el).First();
-            previewEndTime = (string)(from el in root.Descendants("previewEndTime") select el).First();
-            starDifType = (string)(from el in root.Descendants("starDifType") select el).First();
-            basicLevel = (string)(from el in root.Descendants("level") select el).First();
-            basicDecimal = (string)(from el in root.Descendants("levelDecimal") select el).First();
-            advancedLevel = (string)(from el in root.Descendants("level") select el).Skip(1).First();
-            advancedDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(1).First();
-            expertLevel = (string)(from el in root.Descendants("level") select el).Skip(2).First();
-            expertDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(2).First();
-            masterLevel = (string)(from el in root.Descendants("level") select el).Skip(3).First();
-            masterDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(3).First();
-            //For processing Paradise and prior file patterns
-            if (version == 0)
-            {
-                formatVersion = (string)(from el in root.Descendants("formatVersion") select el).First();
-                resourceVersionID = (string)(from el in root.Descendants("id") select el).First();
-                resourceVersionStr = (string)(from el in root.Descendants("str") select el).First();
-                releaseTagNameID = (string)(from el in root.Descendants("id") select el).Skip(1).First();
-                releaseTagNameStr = (string)(from el in root.Descendants("str") select el).Skip(1).First();
-                netOpenNameID = (string)(from el in root.Descendants("id") select el).Skip(2).First();
-                netOpenNameStr = (string)(from el in root.Descendants("str") select el).Skip(2).First();
-                nameID = (string)(from el in root.Descendants("id") select el).Skip(3).First();
-                nameStr = (string)(from el in root.Descendants("str") select el).Skip(3).First();
-                rightsInfoNameID = (string)(from el in root.Descendants("id") select el).Skip(4).First();
-                rightsInfoNameStr = (string)(from el in root.Descendants("str") select el).Skip(4).First();
-                artistNameID = (string)(from el in root.Descendants("id") select el).Skip(5).First();
-                artistNameStr = (string)(from el in root.Descendants("str") select el).Skip(5).First();
-                genreNameID = (string)(from el in root.Descendants("id") select el).Skip(6).First();
-                genreNameStr = (string)(from el in root.Descendants("str") select el).Skip(6).First();
-                worksNameID = (string)(from el in root.Descendants("id") select el).Skip(7).First();
-                worksNameStr = (string)(from el in root.Descendants("str") select el).Skip(7).First();
-                cueFileNameID = (string)(from el in root.Descendants("id") select el).Skip(8).First();
-                cueFileNameStr = (string)(from el in root.Descendants("str") select el).Skip(8).First();
-                worldsEndTagNameID = (string)(from el in root.Descendants("id") select el).Skip(9).First();
-                worldsEndTagNameStr = (string)(from el in root.Descendants("str") select el).Skip(9).First();
-                stageNameID = (string)(from el in root.Descendants("id") select el).Skip(10).First();
-                stageNameStr = (string)(from el in root.Descendants("str") select el).Skip(10).First();
-                worldsEndLevel = (string)(from el in root.Descendants("level") select el).Skip(4).First();
-                worldsEndDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(4).First();
+            //Start processing common data found in all character files regardless of version
+            dataName = charaParser.SelectSingleNode("/CharaData/dataName/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/formatVersion/text()") is not null)
+                formatVersion = charaParser.SelectSingleNode("/CharaData/formatVersion/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/resourceVersion/id/text()") is not null)
+                resourceVersionID = charaParser.SelectSingleNode("/CharaData/resourceVersion/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/resourceVersion/str/text()") is not null)
+                resourceVersionStr = charaParser.SelectSingleNode("/CharaData/resourceVersion/str/text()")!.Value;
+            releaseTagNameID = charaParser.SelectSingleNode("/CharaData/releaseTagName/id/text()")!.Value;
+            releaseTagNameStr = charaParser.SelectSingleNode("/CharaData/releaseTagName/str/text()")!.Value;
+            netOpenNameID = charaParser.SelectSingleNode("/CharaData/netOpenName/id/text()")!.Value;
+            netOpenNameStr = charaParser.SelectSingleNode("/CharaData/netOpenName/str/text()")!.Value;
+            disableFlag = charaParser.SelectSingleNode("/CharaData/disableFlag/text()")!.Value;
+            nameID = charaParser.SelectSingleNode("/CharaData/name/id/text()")!.Value;
+            nameStr = charaParser.SelectSingleNode("/CharaData/name/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/rightsInfoName/id/text()") is not null)
+                rightsInfoNameID = charaParser.SelectSingleNode("/CharaData/rightsInfoName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/rightsInfoName/str/text()") is not null)
+                rightsInfoNameStr = charaParser.SelectSingleNode("/CharaData/rightsInfoName/str/text()")!.Value;
+            sortName = charaParser.SelectSingleNode("/CharaData/sortName/text()")!.Value;
+            worksNameID = charaParser.SelectSingleNode("/CharaData/works/id/text()")!.Value;
+            worksNameStr = charaParser.SelectSingleNode("/CharaData/works/str/text()")!.Value;
+            illustratorID = charaParser.SelectSingleNode("/CharaData/illustratorName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/illustratorName/str/text()") is not null)
+                illustratorStr = charaParser.SelectSingleNode("/CharaData/illustratorName/str/text()")!.Value;
+            defaultHave = charaParser.SelectSingleNode("/CharaData/defaultHave/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/firstSkill/id/text()") is not null)
+                firstSkillID = charaParser.SelectSingleNode("/CharaData/firstSkill/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/firstSkill/str/text()") is not null)
+                firstSkillStr = charaParser.SelectSingleNode("/CharaData/firstSkill/str/text()")!.Value;
+            rareType = charaParser.SelectSingleNode("/CharaData/rareType/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/normConditions/resourceVersion/id/text()") is not null)
+                normConditionVerID = charaParser.SelectSingleNode("/CharaData/normConditions/resourceVersion/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/normConditions/resourceVersion/str/text()") is not null)
+                normConditionVerStr = charaParser.SelectSingleNode("/CharaData/normConditions/resourceVersion/str/text()")!.Value;
 
-                //These do not exist in Paradise
-                enableUltima = "none";
-                ultimaLevel = "none";
-            }
-            //For processing Chunithm New files patterns
-            if (version == 1)
-            {
-                formatVersion = "none";
-                resourceVersionID = "none";
-                resourceVersionStr = "none";
-                releaseTagNameID = (string)(from el in root.Descendants("id") select el).First();
-                releaseTagNameStr = (string)(from el in root.Descendants("str") select el).First();
-                netOpenNameID = (string)(from el in root.Descendants("id") select el).Skip(1).First();
-                netOpenNameStr = (string)(from el in root.Descendants("str") select el).Skip(1).First();
-                nameID = (string)(from el in root.Descendants("id") select el).Skip(2).First();
-                nameStr = (string)(from el in root.Descendants("str") select el).Skip(2).First();
-                artistNameID = (string)(from el in root.Descendants("id") select el).Skip(3).First();
-                artistNameStr = (string)(from el in root.Descendants("str") select el).Skip(3).First();
-                genreNameID = (string)(from el in root.Descendants("id") select el).Skip(4).First();
-                genreNameStr = (string)(from el in root.Descendants("str") select el).Skip(4).First();
-                worksNameID = (string)(from el in root.Descendants("id") select el).Skip(5).First();
-                worksNameStr = (string)(from el in root.Descendants("str") select el).Skip(5).First();
-                enableUltima = (string)(from el in root.Descendants("enableUltima") select el).First();
-                cueFileNameID = (string)(from el in root.Descendants("id") select el).Skip(6).First();
-                cueFileNameStr = (string)(from el in root.Descendants("str") select el).Skip(6).First();
-                worldsEndTagNameID = (string)(from el in root.Descendants("id") select el).Skip(7).First();
-                worldsEndTagNameStr = (string)(from el in root.Descendants("str") select el).Skip(7).First();
-                stageNameID = (string)(from el in root.Descendants("id") select el).Skip(8).First();
-                stageNameStr = (string)(from el in root.Descendants("str") select el).Skip(8).First();
-                basicLevel = (string)(from el in root.Descendants("level") select el).First();
-                basicDecimal = (string)(from el in root.Descendants("levelDecimal") select el).First();
-                advancedLevel = (string)(from el in root.Descendants("level") select el).Skip(1).First();
-                advancedDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(1).First();
-                expertLevel = (string)(from el in root.Descendants("level") select el).Skip(2).First();
-                expertDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(2).First();
-                masterLevel = (string)(from el in root.Descendants("level") select el).Skip(3).First();
-                masterDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(3).First();
-                ultimaLevel = (string)(from el in root.Descendants("level") select el).Skip(4).First();
-                ultimaDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(4).First();
-                worldsEndLevel = (string)(from el in root.Descendants("level") select el).Skip(5).First();
-                worldsEndDecimal = (string)(from el in root.Descendants("levelDecimal") select el).Skip(5).First();
+            if (charaParser.SelectSingleNode("/CharaData/addImages1/charaName/id/text()") is not null)
+                nameID2 = charaParser.SelectSingleNode("/CharaData/addImages1/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages1/charaName/id/text()") is not null)
+                nameStr2 = charaParser.SelectSingleNode("/CharaData/addImages1/charaName/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages2/charaName/id/text()") is not null)
+                nameID3 = charaParser.SelectSingleNode("/CharaData/addImages2/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages2/charaName/id/text()") is not null)
+                nameStr3 = charaParser.SelectSingleNode("/CharaData/addImages2/charaName/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages3/charaName/id/text()") is not null)
+                nameID4 = charaParser.SelectSingleNode("/CharaData/addImages3/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages3/charaName/id/text()") is not null)
+                nameStr4 = charaParser.SelectSingleNode("/CharaData/addImages3/charaName/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages4/charaName/id/text()") is not null)
+                nameID5 = charaParser.SelectSingleNode("/CharaData/addImages4/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages4/charaName/id/text()") is not null)
+                nameStr5 = charaParser.SelectSingleNode("/CharaData/addImages4/charaName/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages5/charaName/id/text()") is not null)
+                nameID6 = charaParser.SelectSingleNode("/CharaData/addImages5/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages5/charaName/id/text()") is not null)
+                nameStr6 = charaParser.SelectSingleNode("/CharaData/addImages5/charaName/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages6/charaName/id/text()") is not null)
+                nameID7 = charaParser.SelectSingleNode("/CharaData/addImages6/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages6/charaName/id/text()") is not null)
+                nameStr7 = charaParser.SelectSingleNode("/CharaData/addImages6/charaName/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages7/charaName/id/text()") is not null)
+                nameID8 = charaParser.SelectSingleNode("/CharaData/addImages7/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages7/charaName/id/text()") is not null)
+                nameStr8 = charaParser.SelectSingleNode("/CharaData/addImages7/charaName/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages8/charaName/id/text()") is not null)
+                nameID9 = charaParser.SelectSingleNode("/CharaData/addImages8/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages8/charaName/id/text()") is not null)
+                nameStr9 = charaParser.SelectSingleNode("/CharaData/addImages8/charaName/str/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages9/charaName/id/text()") is not null)
+                nameID10 = charaParser.SelectSingleNode("/CharaData/addImages9/charaName/id/text()")!.Value;
+            if (charaParser.SelectSingleNode("/CharaData/addImages9/charaName/id/text()") is not null)
+                nameStr10 = charaParser.SelectSingleNode("/CharaData/addImages9/charaName/str/text()")!.Value;
 
-                ultimaLevel = ultimaLevel + "." + ultimaDecimal;
-
-                //Variables from Paradise not found in New music data.
-                rightsInfoNameID = "none";
-                rightsInfoNameStr = "none";
-                previewStartTime = "none";
-                previewEndTime = "none";
-            }
-            //Calculate common difficulties at the end
-            basicLevel = basicLevel + "." + basicDecimal;
-            advancedLevel = advancedLevel + "." + advancedDecimal;
-            expertLevel = expertLevel + "." + expertDecimal;
-            masterLevel = masterLevel + "." + masterDecimal;
-            worldsEndLevel = worldsEndLevel + "." + worldsEndDecimal;
+            priority = charaParser.SelectSingleNode("/CharaData/priority/text()")!.Value;
         }
 
         //method for inserting all the parsed information into a SQLite database
         public void insertToDB()
         {
-            SqliteCommand insertMusic = new SqliteCommand("INSERT INTO Music (nameID, dataName, option, disableFlag, musicName, " +
-            "sortName, artistID, artistName, genreID, genreName, rightsInfoID, rightsInfoName, worksID, worksName, " +
-            "firstLock, enableUltima, priority, previewStartTime, previewEndTime, worldsEndTagID, worldsEndTagName, starDifType," +
-            "stageID, stageName, basicLevel, advancedLevel, expertLevel, masterLevel, ultimaLevel, worldsEndLevel, cueFileID, " +
-            "cueFileName, formatVersion, resourceVersionID, resourceVersion, releaseTagID, releaseTagVer, netOpenID, " +
-            "netOpenVer, exType) " +
-            "VALUES (@nameID, @dataName, @option, @disableFlag, @musicName, @sortName, @artistID, @artistName, @genreID, " +
-            "@genreName, @rightsInfoID, @rightsInfoName, @worksID, @worksName, @firstLock, @enableUltima, @priority, @previewStartTime, " +
-            "@previewEndTime, @worldsEndTagID, @worldsEndTagName, @starDifType, @stageID, @stageName, @basicLevel, " +
-            "@advancedLevel, @expertLevel, @masterLevel, @ultimaLevel, @worldsEndLevel, @cueFileID, @cueFileName, @formatVersion, " +
-            "@resourceVersionID, @resourceVersion, @releaseTagID, @releaseTagVer, @netOpenID, @netOpenVer, @exType)", connection);
+            Console.WriteLine(dataName);
+            Console.WriteLine(formatVersion);
+            Console.WriteLine(resourceVersionID);
+            Console.WriteLine(resourceVersionStr);
+            Console.WriteLine(releaseTagNameID);
+            Console.WriteLine(releaseTagNameStr);
+            Console.WriteLine(netOpenNameID);
+            Console.WriteLine(netOpenNameStr);
+            Console.WriteLine(disableFlag);
+            Console.WriteLine(nameID);
+            Console.WriteLine(nameStr);
+            Console.WriteLine(rightsInfoNameID);
+            Console.WriteLine(rightsInfoNameStr);
+            Console.WriteLine(sortName);
+            Console.WriteLine(worksNameID);
+            Console.WriteLine(worksNameStr);
+            Console.WriteLine(illustratorID);
+            Console.WriteLine(illustratorStr);
+            Console.WriteLine(defaultHave);
+            Console.WriteLine(firstSkillID);
+            Console.WriteLine(firstSkillStr);
+            Console.WriteLine(rareType);
+            Console.WriteLine(normConditionVerID);
+            Console.WriteLine(normConditionVerStr);
+            Console.WriteLine(priority);
 
-            insertMusic.Parameters.AddWithValue("@nameID", nameID);
-            insertMusic.Parameters.AddWithValue("@dataName", dataName);
-            insertMusic.Parameters.AddWithValue("@option", optionOrigin);
-            insertMusic.Parameters.AddWithValue("@disableFlag", disableFlag);
-            insertMusic.Parameters.AddWithValue("@musicName", nameStr);
-            insertMusic.Parameters.AddWithValue("@sortName", sortName);
-            insertMusic.Parameters.AddWithValue("@artistID", artistNameID);
-            insertMusic.Parameters.AddWithValue("@artistName", artistNameStr);
-            insertMusic.Parameters.AddWithValue("@genreID", genreNameID);
-            insertMusic.Parameters.AddWithValue("@genreName", genreNameStr);
-            insertMusic.Parameters.AddWithValue("@rightsInfoID", rightsInfoNameID);
-            insertMusic.Parameters.AddWithValue("@rightsInfoName", rightsInfoNameStr);
-            insertMusic.Parameters.AddWithValue("@worksID", worksNameID);
-            insertMusic.Parameters.AddWithValue("@worksName", worksNameStr);
-            insertMusic.Parameters.AddWithValue("@firstLock", firstLock);
-            insertMusic.Parameters.AddWithValue("@enableUltima", enableUltima);
-            insertMusic.Parameters.AddWithValue("@priority", priority);
-            insertMusic.Parameters.AddWithValue("@previewStartTime", previewStartTime);
-            insertMusic.Parameters.AddWithValue("@previewEndTime", previewEndTime);
-            insertMusic.Parameters.AddWithValue("@worldsEndTagID", worldsEndTagNameID);
-            insertMusic.Parameters.AddWithValue("@worldsEndTagName", worldsEndTagNameStr);
-            insertMusic.Parameters.AddWithValue("@starDifType", starDifType);
-            insertMusic.Parameters.AddWithValue("@stageID", stageNameID);
-            insertMusic.Parameters.AddWithValue("@stageName", stageNameStr);
-            insertMusic.Parameters.AddWithValue("@basicLevel", basicLevel);
-            insertMusic.Parameters.AddWithValue("@advancedLevel", advancedLevel);
-            insertMusic.Parameters.AddWithValue("@expertLevel", expertLevel);
-            insertMusic.Parameters.AddWithValue("@masterLevel", masterLevel);
-            insertMusic.Parameters.AddWithValue("@ultimaLevel", ultimaLevel);
-            insertMusic.Parameters.AddWithValue("@worldsEndLevel", worldsEndLevel);
-            insertMusic.Parameters.AddWithValue("@cueFileID", cueFileNameID);
-            insertMusic.Parameters.AddWithValue("@cueFileName", cueFileNameStr);
-            insertMusic.Parameters.AddWithValue("@formatVersion", formatVersion);
-            insertMusic.Parameters.AddWithValue("@resourceVersionID", resourceVersionID);
-            insertMusic.Parameters.AddWithValue("@resourceVersion", resourceVersionStr);
-            insertMusic.Parameters.AddWithValue("@releaseTagID", releaseTagNameID);
-            insertMusic.Parameters.AddWithValue("@releaseTagVer", releaseTagNameStr);
-            insertMusic.Parameters.AddWithValue("@netOpenID", netOpenNameID);
-            insertMusic.Parameters.AddWithValue("@netOpenVer", netOpenNameStr);
-            insertMusic.Parameters.AddWithValue("@exType", exType);
+            SqliteCommand insertChara = new SqliteCommand("INSERT INTO CharacterData (nameID, dataName, option, disableFlag, charaName, " +
+            "sortName, defaultHave, illustratorID, illustratorName, rightsInfoID, rightsInfoName, worksID, worksName, " +
+            "firstSkillID, firstSkill, normConditionID, normCondition, resourceVersionID, resourceVersion, " +
+            "priority, releaseTagID, releaseTagVer, netOpenID, netOpenVer) " +
+            "VALUES (@nameID, @dataName, @option, @disableFlag, @charaName, @sortName, @defaultHave, @illustratorID, @illustratorName, " +
+            "@rightsInfoID, @rightsInfoName, @worksID, @worksName, @firstSkillID, @firstSkill, @normConditionID, @normCondition, " +
+            "@resourceVersionID, @resourceVersion, @priority, @releaseTagID, @releaseTagVer, @netOpenID, @netOpenVer)", connection);
+
+          
+            insertChara.Parameters.AddWithValue("@nameID", nameID);
+            insertChara.Parameters.AddWithValue("@dataName", dataName);
+            insertChara.Parameters.AddWithValue("@option", optionOrigin);
+            insertChara.Parameters.AddWithValue("@disableFlag", disableFlag);
+            insertChara.Parameters.AddWithValue("@charaName", nameStr);
+            insertChara.Parameters.AddWithValue("@sortName", sortName);
+            insertChara.Parameters.AddWithValue("@defaultHave", defaultHave);
+            insertChara.Parameters.AddWithValue("@illustratorID", illustratorID);
+            insertChara.Parameters.AddWithValue("@illustratorName", illustratorStr);
+            insertChara.Parameters.AddWithValue("@rightsInfoID", rightsInfoNameID);
+            insertChara.Parameters.AddWithValue("@rightsInfoName", rightsInfoNameStr);
+            insertChara.Parameters.AddWithValue("@worksID", worksNameID);
+            insertChara.Parameters.AddWithValue("@worksName", worksNameStr);
+            insertChara.Parameters.AddWithValue("@firstSkillID", firstSkillID);
+            insertChara.Parameters.AddWithValue("@firstSkill", firstSkillStr);
+            insertChara.Parameters.AddWithValue("@normConditionID", normConditionVerID);
+            insertChara.Parameters.AddWithValue("@normCondition", normConditionVerStr);
+            insertChara.Parameters.AddWithValue("@resourceVersionID", resourceVersionID);
+            insertChara.Parameters.AddWithValue("@resourceVersion", resourceVersionStr);
+            insertChara.Parameters.AddWithValue("@priority", priority);
+            insertChara.Parameters.AddWithValue("@releaseTagID", releaseTagNameID);
+            insertChara.Parameters.AddWithValue("@releaseTagVer", releaseTagNameStr);
+            insertChara.Parameters.AddWithValue("@netOpenID", netOpenNameID);
+            insertChara.Parameters.AddWithValue("@netOpenVer", netOpenNameStr);
             try
             {
-                insertMusic.ExecuteNonQuery();
+                insertChara.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        */
+        
     }
 }

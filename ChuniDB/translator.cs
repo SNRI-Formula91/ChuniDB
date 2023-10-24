@@ -36,10 +36,12 @@ namespace ChuniDB
                             switch (file.Name)
                             {
                                 case "Music.xml":
-                                    musicTranslator fileToTranslate = new musicTranslator(@file.FullName, connectionString);
-                                    fileToTranslate.translateMusicFile();
+                                    musicTranslator musicFileTranslator = new musicTranslator(@file.FullName, connectionString);
+                                    musicFileTranslator.translateMusicFile();
                                     break;
                                 case "Chara.xml":
+                                    charaTranslator charaFileTranslator = new charaTranslator(file.FullName, connectionString);
+                                    charaFileTranslator.translateCharaFile();
                                     break;
                                 case "NamePlate.xml":
                                     break;
@@ -47,7 +49,10 @@ namespace ChuniDB
                                     break;
                                 case "Trophy.xml":
                                     break;
-
+                                case "Course.xml":
+                                    courseTranslator courseFileTranslator = new courseTranslator(file.FullName, connectionString);
+                                    courseFileTranslator.translateCourseFile();
+                                    break;
                             }
                         }
                     }

@@ -62,7 +62,7 @@ namespace ChuniDB.Methods
                     if (charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()") is not null)
                         if (charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value != "-1")
                         {
-                            nameID = charaParser.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value;
+                            nameID = charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value;
                             nameStr = queryName.ExecuteScalar() as string;
                             Console.WriteLine(nameStr);
                             node = (XmlElement)charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/str")!;

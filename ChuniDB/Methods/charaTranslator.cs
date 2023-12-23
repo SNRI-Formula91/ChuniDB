@@ -63,13 +63,14 @@ namespace ChuniDB.Methods
                         if (charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value != "-1")
                         {
                             nameID = charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value;
+                            //queryName must be redefined for the SqliteCommand to accept the new nameID
+                            queryName = new SqliteCommand("SELECT charaNameEN FROM Characters WHERE charaID = " + nameID, connection);
                             nameStr = queryName.ExecuteScalar() as string;
                             Console.WriteLine(nameStr);
                             node = (XmlElement)charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/str")!;
-                            node.InnerText = nameStr;
+                            node.InnerText = nameStr!;
                         }
                 }
-
                 charaFile.Save(filePath);
             }
             catch (Exception ex)

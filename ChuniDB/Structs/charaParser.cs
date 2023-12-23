@@ -25,8 +25,9 @@ namespace ChuniDB.Structs
         private string netOpenNameID;
         private string netOpenNameStr;
         private string disableFlag;
-        private string nameID;
-        private string nameStr;
+        //need to account for all the extra transformations
+        private string[] nameID;
+        private string[] nameStr;
         private string rightsInfoNameID;
         private string rightsInfoNameStr;
         private string sortName;
@@ -40,26 +41,6 @@ namespace ChuniDB.Structs
         private string rareType;
         private string normConditionVerID;
         private string normConditionVerStr;
-        
-        private string nameID2;
-        private string nameStr2;
-        private string nameID3;
-        private string nameStr3;
-        private string nameID4;
-        private string nameStr4;
-        private string nameID5;
-        private string nameStr5;
-        private string nameID6;
-        private string nameStr6;
-        private string nameID7;
-        private string nameStr7;
-        private string nameID8;
-        private string nameStr8;
-        private string nameID9;
-        private string nameStr9;
-        private string nameID10;
-        private string nameStr10;
-
         private string priority;
         
         //default constructor
@@ -83,8 +64,11 @@ namespace ChuniDB.Structs
         netOpenNameID = "";
         netOpenNameStr = "";
         disableFlag = "";
-        nameID = "";
-        nameStr = "";
+        nameID = new string[10];
+        //using array fills so that we don't get hit with null value exceptions with sqlite queries later
+        Array.Fill(nameID, "none");
+        nameStr = new string[10];
+        Array.Fill(nameStr, "none");
         rightsInfoNameID = "none";
         rightsInfoNameStr = "none";
         sortName = "";
@@ -98,26 +82,6 @@ namespace ChuniDB.Structs
         rareType = "";
         normConditionVerID = "none";
         normConditionVerStr = "none";
-        nameID2 = "none";
-        nameStr2 = "none";
-        nameID3 = "none";
-        nameStr3 = "none";
-        nameID4 = "none";
-        nameStr4 = "none";
-        nameID5 = "none";
-        nameStr5 = "none";
-        nameID5 = "none";
-        nameStr5 = "none";
-        nameID6 = "none";
-        nameStr6 = "none";
-        nameID7 = "none";
-        nameStr7 = "none";
-        nameID8 = "none";
-        nameStr8 = "none";
-        nameID9 = "none";
-        nameStr9 = "none";
-        nameID10 = "none";
-        nameStr10 = "none";
         priority = "";
         }
 
@@ -140,8 +104,8 @@ namespace ChuniDB.Structs
             netOpenNameID = charaParser.SelectSingleNode("/CharaData/netOpenName/id/text()")!.Value;
             netOpenNameStr = charaParser.SelectSingleNode("/CharaData/netOpenName/str/text()")!.Value;
             disableFlag = charaParser.SelectSingleNode("/CharaData/disableFlag/text()")!.Value;
-            nameID = charaParser.SelectSingleNode("/CharaData/name/id/text()")!.Value;
-            nameStr = charaParser.SelectSingleNode("/CharaData/name/str/text()")!.Value;
+            nameID[0] = charaParser.SelectSingleNode("/CharaData/name/id/text()")!.Value;
+            nameStr[0] = charaParser.SelectSingleNode("/CharaData/name/str/text()")!.Value;
             if (charaParser.SelectSingleNode("/CharaData/rightsInfoName/id/text()") is not null)
                 rightsInfoNameID = charaParser.SelectSingleNode("/CharaData/rightsInfoName/id/text()")!.Value;
             if (charaParser.SelectSingleNode("/CharaData/rightsInfoName/str/text()") is not null)
@@ -163,43 +127,16 @@ namespace ChuniDB.Structs
             if (charaParser.SelectSingleNode("/CharaData/normConditions/resourceVersion/str/text()") is not null)
                 normConditionVerStr = charaParser.SelectSingleNode("/CharaData/normConditions/resourceVersion/str/text()")!.Value;
 
-            if (charaParser.SelectSingleNode("/CharaData/addImages1/charaName/id/text()") is not null)
-                nameID2 = charaParser.SelectSingleNode("/CharaData/addImages1/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages1/charaName/id/text()") is not null)
-                nameStr2 = charaParser.SelectSingleNode("/CharaData/addImages1/charaName/str/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages2/charaName/id/text()") is not null)
-                nameID3 = charaParser.SelectSingleNode("/CharaData/addImages2/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages2/charaName/id/text()") is not null)
-                nameStr3 = charaParser.SelectSingleNode("/CharaData/addImages2/charaName/str/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages3/charaName/id/text()") is not null)
-                nameID4 = charaParser.SelectSingleNode("/CharaData/addImages3/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages3/charaName/id/text()") is not null)
-                nameStr4 = charaParser.SelectSingleNode("/CharaData/addImages3/charaName/str/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages4/charaName/id/text()") is not null)
-                nameID5 = charaParser.SelectSingleNode("/CharaData/addImages4/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages4/charaName/id/text()") is not null)
-                nameStr5 = charaParser.SelectSingleNode("/CharaData/addImages4/charaName/str/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages5/charaName/id/text()") is not null)
-                nameID6 = charaParser.SelectSingleNode("/CharaData/addImages5/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages5/charaName/id/text()") is not null)
-                nameStr6 = charaParser.SelectSingleNode("/CharaData/addImages5/charaName/str/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages6/charaName/id/text()") is not null)
-                nameID7 = charaParser.SelectSingleNode("/CharaData/addImages6/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages6/charaName/id/text()") is not null)
-                nameStr7 = charaParser.SelectSingleNode("/CharaData/addImages6/charaName/str/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages7/charaName/id/text()") is not null)
-                nameID8 = charaParser.SelectSingleNode("/CharaData/addImages7/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages7/charaName/id/text()") is not null)
-                nameStr8 = charaParser.SelectSingleNode("/CharaData/addImages7/charaName/str/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages8/charaName/id/text()") is not null)
-                nameID9 = charaParser.SelectSingleNode("/CharaData/addImages8/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages8/charaName/id/text()") is not null)
-                nameStr9 = charaParser.SelectSingleNode("/CharaData/addImages8/charaName/str/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages9/charaName/id/text()") is not null)
-                nameID10 = charaParser.SelectSingleNode("/CharaData/addImages9/charaName/id/text()")!.Value;
-            if (charaParser.SelectSingleNode("/CharaData/addImages9/charaName/id/text()") is not null)
-                nameStr10 = charaParser.SelectSingleNode("/CharaData/addImages9/charaName/str/text()")!.Value;
-
+            //logic for getting all the extra transformations
+            for (int i = 1; i < 10 ; i++)
+            {
+                if(charaParser.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()") is not null)
+                    if(charaParser.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value != "-1")
+                        nameID[i] = charaParser.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value;
+                if (charaParser.SelectSingleNode("/CharaData/addImages" + i + "/charaName/str/text()") is not null)
+                    if (charaParser.SelectSingleNode("/CharaData/addImages" + i + "/charaName/str/text()")!.Value != "Invalid")
+                        nameStr[i] = charaParser.SelectSingleNode("/CharaData/addImages" + i + "/charaName/str/text()")!.Value;
+            }
             priority = charaParser.SelectSingleNode("/CharaData/priority/text()")!.Value;
         }
 
@@ -215,8 +152,8 @@ namespace ChuniDB.Structs
             Console.WriteLine(netOpenNameID);
             Console.WriteLine(netOpenNameStr);
             Console.WriteLine(disableFlag);
-            Console.WriteLine(nameID);
-            Console.WriteLine(nameStr);
+            Console.WriteLine(nameID[0]);
+            Console.WriteLine(nameStr[0]);
             Console.WriteLine(rightsInfoNameID);
             Console.WriteLine(rightsInfoNameStr);
             Console.WriteLine(sortName);
@@ -232,48 +169,56 @@ namespace ChuniDB.Structs
             Console.WriteLine(normConditionVerStr);
             Console.WriteLine(priority);
 
-            SqliteCommand insertChara = new SqliteCommand("INSERT INTO CharacterData (nameID, dataName, option, disableFlag, charaName, " +
-            "sortName, defaultHave, illustratorID, illustratorName, rightsInfoID, rightsInfoName, worksID, worksName, " +
-            "firstSkillID, firstSkill, normConditionID, normCondition, resourceVersionID, resourceVersion, " +
-            "priority, releaseTagID, releaseTagVer, netOpenID, netOpenVer) " +
-            "VALUES (@nameID, @dataName, @option, @disableFlag, @charaName, @sortName, @defaultHave, @illustratorID, @illustratorName, " +
-            "@rightsInfoID, @rightsInfoName, @worksID, @worksName, @firstSkillID, @firstSkill, @normConditionID, @normCondition, " +
-            "@resourceVersionID, @resourceVersion, @priority, @releaseTagID, @releaseTagVer, @netOpenID, @netOpenVer)", connection);
+            for (int j = 0; j < nameID.Length; j++)
+            {
+                if (nameID[j] != "none")
+                {
+                    Console.WriteLine(nameID[j]);
+                    Console.WriteLine(nameStr[j]);
+                
+                    SqliteCommand insertChara = new SqliteCommand("INSERT INTO CharacterData (nameID, dataName, option, disableFlag, charaName, " +
+                    "sortName, defaultHave, illustratorID, illustratorName, rightsInfoID, rightsInfoName, worksID, worksName, " +
+                    "firstSkillID, firstSkill, normConditionID, normCondition, resourceVersionID, resourceVersion, " +
+                    "priority, releaseTagID, releaseTagVer, netOpenID, netOpenVer) " +
+                    "VALUES (@nameID, @dataName, @option, @disableFlag, @charaName, @sortName, @defaultHave, @illustratorID, @illustratorName, " +
+                    "@rightsInfoID, @rightsInfoName, @worksID, @worksName, @firstSkillID, @firstSkill, @normConditionID, @normCondition, " +
+                    "@resourceVersionID, @resourceVersion, @priority, @releaseTagID, @releaseTagVer, @netOpenID, @netOpenVer)", connection);
 
           
-            insertChara.Parameters.AddWithValue("@nameID", nameID);
-            insertChara.Parameters.AddWithValue("@dataName", dataName);
-            insertChara.Parameters.AddWithValue("@option", optionOrigin);
-            insertChara.Parameters.AddWithValue("@disableFlag", disableFlag);
-            insertChara.Parameters.AddWithValue("@charaName", nameStr);
-            insertChara.Parameters.AddWithValue("@sortName", sortName);
-            insertChara.Parameters.AddWithValue("@defaultHave", defaultHave);
-            insertChara.Parameters.AddWithValue("@illustratorID", illustratorID);
-            insertChara.Parameters.AddWithValue("@illustratorName", illustratorStr);
-            insertChara.Parameters.AddWithValue("@rightsInfoID", rightsInfoNameID);
-            insertChara.Parameters.AddWithValue("@rightsInfoName", rightsInfoNameStr);
-            insertChara.Parameters.AddWithValue("@worksID", worksNameID);
-            insertChara.Parameters.AddWithValue("@worksName", worksNameStr);
-            insertChara.Parameters.AddWithValue("@firstSkillID", firstSkillID);
-            insertChara.Parameters.AddWithValue("@firstSkill", firstSkillStr);
-            insertChara.Parameters.AddWithValue("@normConditionID", normConditionVerID);
-            insertChara.Parameters.AddWithValue("@normCondition", normConditionVerStr);
-            insertChara.Parameters.AddWithValue("@resourceVersionID", resourceVersionID);
-            insertChara.Parameters.AddWithValue("@resourceVersion", resourceVersionStr);
-            insertChara.Parameters.AddWithValue("@priority", priority);
-            insertChara.Parameters.AddWithValue("@releaseTagID", releaseTagNameID);
-            insertChara.Parameters.AddWithValue("@releaseTagVer", releaseTagNameStr);
-            insertChara.Parameters.AddWithValue("@netOpenID", netOpenNameID);
-            insertChara.Parameters.AddWithValue("@netOpenVer", netOpenNameStr);
-            try
-            {
-                insertChara.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
+                    insertChara.Parameters.AddWithValue("@nameID", nameID[j]);
+                    insertChara.Parameters.AddWithValue("@dataName", dataName);
+                    insertChara.Parameters.AddWithValue("@option", optionOrigin);
+                    insertChara.Parameters.AddWithValue("@disableFlag", disableFlag);
+                    insertChara.Parameters.AddWithValue("@charaName", nameStr[j]);
+                    insertChara.Parameters.AddWithValue("@sortName", sortName);
+                    insertChara.Parameters.AddWithValue("@defaultHave", defaultHave);
+                    insertChara.Parameters.AddWithValue("@illustratorID", illustratorID);
+                    insertChara.Parameters.AddWithValue("@illustratorName", illustratorStr);
+                    insertChara.Parameters.AddWithValue("@rightsInfoID", rightsInfoNameID);
+                    insertChara.Parameters.AddWithValue("@rightsInfoName", rightsInfoNameStr);
+                    insertChara.Parameters.AddWithValue("@worksID", worksNameID);
+                    insertChara.Parameters.AddWithValue("@worksName", worksNameStr);
+                    insertChara.Parameters.AddWithValue("@firstSkillID", firstSkillID);
+                    insertChara.Parameters.AddWithValue("@firstSkill", firstSkillStr);
+                    insertChara.Parameters.AddWithValue("@normConditionID", normConditionVerID);
+                    insertChara.Parameters.AddWithValue("@normCondition", normConditionVerStr);
+                    insertChara.Parameters.AddWithValue("@resourceVersionID", resourceVersionID);
+                    insertChara.Parameters.AddWithValue("@resourceVersion", resourceVersionStr);
+                    insertChara.Parameters.AddWithValue("@priority", priority);
+                    insertChara.Parameters.AddWithValue("@releaseTagID", releaseTagNameID);
+                    insertChara.Parameters.AddWithValue("@releaseTagVer", releaseTagNameStr);
+                    insertChara.Parameters.AddWithValue("@netOpenID", netOpenNameID);
+                    insertChara.Parameters.AddWithValue("@netOpenVer", netOpenNameStr);
+                    try
+                    {
+                        insertChara.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                }
             }
         }
-        
     }
 }

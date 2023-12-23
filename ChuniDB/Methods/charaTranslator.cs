@@ -56,6 +56,20 @@ namespace ChuniDB.Methods
                 node = (XmlElement)charaFile.SelectSingleNode("/CharaData/works/str")!;
                 node.InnerText = worksStr!;
 
+                //logic for getting all the extra transformations
+                for (int i = 1; i < 10; i++)
+                {
+                    if (charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()") is not null)
+                        if (charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value != "-1")
+                        {
+                            nameID = charaParser.SelectSingleNode("/CharaData/addImages" + i + "/charaName/id/text()")!.Value;
+                            nameStr = queryName.ExecuteScalar() as string;
+                            Console.WriteLine(nameStr);
+                            node = (XmlElement)charaFile.SelectSingleNode("/CharaData/addImages" + i + "/charaName/str")!;
+                            node.InnerText = nameStr;
+                        }
+                }
+
                 charaFile.Save(filePath);
             }
             catch (Exception ex)

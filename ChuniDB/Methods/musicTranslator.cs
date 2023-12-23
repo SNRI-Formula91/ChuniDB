@@ -24,6 +24,8 @@ namespace ChuniDB.Methods
         private string? artistNameStr;
         private string? genreNameID;
         private string? genreNameStr;
+        private string? worksNameID;
+        private string? worksNameStr;
 
         public musicTranslator(string xmlFilePath, SqliteConnection connString)
         {
@@ -44,6 +46,7 @@ namespace ChuniDB.Methods
             SqliteCommand querySortName = new SqliteCommand("SELECT sortNameEN FROM Songs WHERE songID = " + nameID, connection);
             SqliteCommand queryArtist = new SqliteCommand("SELECT artistEN FROM Artists WHERE artistID = " + artistNameID, connection);
             SqliteCommand queryGrenre = new SqliteCommand("SELECT genreEN FROM Genres WHERE genreID = " + genreNameID, connection);
+            SqliteCommand queryWorks = new SqliteCommand("SELECT worksNameEN FROM Works WHERE worksID = " + worksNameID, connection);
 
             try
             {
@@ -63,6 +66,10 @@ namespace ChuniDB.Methods
                 Console.WriteLine(genreNameStr);
                 node = (XmlElement)musicFile.SelectSingleNode("/MusicData/genreNames/list/StringID/str")!;
                 node.InnerText = genreNameStr!;
+                worksNameStr = queryWorks.ExecuteScalar() as string;
+                Console.WriteLine(worksNameStr);
+                node = (XmlElement)musicFile.SelectSingleNode("MusicData/worksName/str")!;
+                node.InnerText = worksNameStr!;
                 
                 musicFile.Save(filePath);
             }
